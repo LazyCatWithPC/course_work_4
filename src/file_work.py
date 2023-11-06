@@ -3,14 +3,14 @@ from abc import ABC, abstractmethod
 from src.website_work import Vacancies
 
 
-class OperatingFile(ABC):
+class FileOperation(ABC):
     @staticmethod
     @abstractmethod
     def operate_file(keyword):
         pass
 
 
-class OperatingJSON(OperatingFile):
+class JSONOperation(FileOperation):
     @staticmethod
     def json_exemplars(united_list: list[Vacancies]) -> list[dict]:
         list_dicts = []

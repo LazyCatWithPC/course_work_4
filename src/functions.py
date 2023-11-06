@@ -1,16 +1,17 @@
-from website_work import Vacancies, SuperJobVacancies, HeadHunterVacancies
+from src.website_work import Vacancies, SuperJobVacancies, HeadHunterVacancies
 
 
 def get_data_from_user():
 
     print("Приветствуем, Пользователь.\nВам придётся ввести данные для того, чтобы продолжить.\n")
 
-    vacancy = get_vacancy_name
-    platform = get_platform_name
-    city = get_location
-    salary = get_salary
-    quantity = get_quantity
+    vacancy = get_vacancy_name()
+    platform = get_platform_name()
+    city = get_location()
+    salary = get_salary()
+    quantity = get_quantity()
 
+    print("Идёт обработка и загрузка данных.\nДля вашего удобства результат будет выведен в файл 'results.txt'")
     return vacancy, platform, city, salary, quantity
 
 
@@ -28,7 +29,7 @@ def get_vacancy_name():
 def get_platform_name():
     while True:
         platform = input("Выберите площадку:\nHeadHunter\nSuperJob\nВсе/All\n")
-        if platform is "HeadHunter" or platform is "SuperJob" or platform is "Все" or platform is "All":
+        if platform == "HeadHunter" or platform == "SuperJob" or platform == "Все" or platform == "All":
             break
         else:
             print("Введите корректное название.\n")
@@ -77,13 +78,13 @@ def output_data(list_of_vacancies: list[dict], quantity: str):
               f"Ссылка: {vacancy['url']}\n")
 
 
-def get_platforms_data(user_required_platform: str, keyword: str) -> list[Vacancies]:
+def get_platforms_data(platform: str, keyword: str) -> list[Vacancies]:
 
     platforms = [(HeadHunterVacancies,), (SuperJobVacancies,), (HeadHunterVacancies, SuperJobVacancies)]
     required_platforms_data = []
-    if user_required_platform == "HeadHunter":
+    if platform == "HeadHunter":
         required_platforms = platforms[0]
-    elif user_required_platform == "SuperJob":
+    elif platform == "SuperJob":
         required_platforms = platforms[1]
     else:
         required_platforms = platforms[2]
