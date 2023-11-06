@@ -2,7 +2,9 @@ from src.website_work import Vacancies, SuperJobVacancies, HeadHunterVacancies
 
 
 def get_data_from_user():
-
+    """
+    Запрашивает данные у пользователя для дальнейшей сортировки/фильтрации
+    """
     print("Приветствуем, Пользователь.\nВам придётся ввести данные для того, чтобы продолжить.\n")
 
     vacancy = get_vacancy_name()
@@ -16,6 +18,9 @@ def get_data_from_user():
 
 
 def get_vacancy_name():
+    """
+    Запрашивает и возвращает имя вакансии/ключевое слово
+    """
     while True:
         vacancy = input("Введите название вакансии:\n")
         if vacancy.isdigit():
@@ -27,6 +32,9 @@ def get_vacancy_name():
 
 
 def get_platform_name():
+    """
+    Запрашивает и возвращает платформу для поиска
+    """
     while True:
         platform = input("Выберите площадку:\nHeadHunter\nSuperJob\nВсе/All\n")
         if platform == "HeadHunter" or platform == "SuperJob" or platform == "Все" or platform == "All":
@@ -38,6 +46,9 @@ def get_platform_name():
 
 
 def get_location():
+    """
+    Запрашивает и возвращает местоположение
+    """
     while True:
         city = input("Введите город/населённый пункт:\n")
         if city.isalpha():
@@ -49,6 +60,9 @@ def get_location():
 
 
 def get_salary():
+    """
+    Запрашивает и возвращает минимальный оклад
+    """
     while True:
         salary = input("Введите минимальный желаемый оклад:\n")
         if salary.isalpha():
@@ -60,6 +74,9 @@ def get_salary():
 
 
 def get_quantity():
+    """
+    Запрашивает и возвращает кол-во вакансий для отображения
+    """
     while True:
         quantity = input("Введите желаемое количество вакансий для отображения (макс. 50): ")
         if quantity.isalpha() or int(quantity) > 50 or int(quantity) < 1:
@@ -70,6 +87,9 @@ def get_quantity():
 
 
 def output_data(list_of_vacancies: list[dict], quantity: str):
+    """
+    Выводит вакансии в консоль
+    """
     print("Список подходящих вакансий:\n")
     for vacancy in list_of_vacancies[:int(quantity)]:
         print(f"Название: {vacancy['name']}\n"
@@ -79,7 +99,9 @@ def output_data(list_of_vacancies: list[dict], quantity: str):
 
 
 def get_platforms_data(platform: str, keyword: str) -> list[Vacancies]:
-
+    """
+    Возвращает вакансии в созданных экземплярах класса
+    """
     platforms = [(HeadHunterVacancies,), (SuperJobVacancies,), (HeadHunterVacancies, SuperJobVacancies)]
     required_platforms_data = []
     if platform == "HeadHunter":

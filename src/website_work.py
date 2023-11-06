@@ -4,14 +4,22 @@ from abc import ABC, abstractmethod
 
 
 class Website(ABC):
+    """
+    Абстрактный класс для работы с API
+    """
     @abstractmethod
     def get_vacancies_data(self, page, keyword):
         pass
 
 
 class HeadHunter(Website):
-
+    """
+    Класс для работы с данными и API с HeadHunter
+    """
     def get_vacancies_data(self, page: int, keyword: str):
+        """
+        Возвращает данные вакансий, полученные с сайта
+        """
         params = {
             "text": keyword,
             "page": page,
@@ -22,6 +30,9 @@ class HeadHunter(Website):
         return response.content
 
     def vacancies_to_json(self, keyword: str):
+        """
+        Преобразовывает и возвращает данные вакансий в список JSON
+        """
         js_list = []
 
         for page in range(0, 20):
@@ -33,12 +44,18 @@ class HeadHunter(Website):
 
 
 class SuperJob(Website):
+    """
+    Класс для работы с данными и API с SuperJob
+    """
     API = "v3.r.137937370.924277268373661c326e2d86d1509666810c1dfc.f5bfa2098a0696b48d0d8d646e960dd6c4973aab"
 
     def __init__(self):
         pass
 
     def get_vacancies_data(self, page: int, keyword: str):
+        """
+        Возвращает данные вакансий, полученные с сайта
+        """
         header = {
             "Host": "api.superjob.ru",
             "X-Api-App-Id": SuperJob.API,
@@ -57,6 +74,9 @@ class SuperJob(Website):
         return response.content
 
     def vacancies_to_json(self, keyword: str):
+        """
+        Преобразовывает и возвращает данные вакансий в список JSON
+        """
         js_list = []
 
         for page in range(0, 20):
@@ -66,6 +86,9 @@ class SuperJob(Website):
 
 
 class Vacancies:
+    """
+    Общий класс для работы с вакансиями
+    """
     def __init__(self, name=None, salary=None, salary_to=None, salary_currency=None,
                  town=None, experience=None, url=None):
         self.name = name
@@ -104,7 +127,13 @@ class Vacancies:
 
 
 class SuperJobVacancies(Vacancies, SuperJob):
+    """
+    Класс для работы с вакансиями SuperJob
+    """
     def load_vacancies(self, keyword: str):
+        """
+        Возвращает список вакансий
+        """
         list_vacancies = []
         for vacancy in SuperJob.vacancies_to_json(self, keyword):
             new_vacancy = SuperJobVacancies(name=vacancy["profession"],
@@ -120,7 +149,13 @@ class SuperJobVacancies(Vacancies, SuperJob):
 
 
 class HeadHunterVacancies(Vacancies, HeadHunter):
+    """
+    Класс для работы с вакансиями HH
+    """
     def load_vacancies(self, keyword: str):
+        """
+        Возвращает список вакансий
+        """
         list_of_vacancies = []
         for vacancy in HeadHunter.vacancies_to_json(self, keyword):
             try:
